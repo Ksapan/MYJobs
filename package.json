@@ -1,0 +1,10 @@
+{
+  "name": "mern-project",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "server": "npm --prefix backend run dev",
+    "client": "npm --prefix frontend run dev"
+  }
+}
+
