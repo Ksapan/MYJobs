@@ -10,8 +10,8 @@ import {
   CheckCircle,
   ShieldCheck,
   KeyRound,
-  RefreshCw,
-  ArrowLeft
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import '../styles/Auth.css';
 
@@ -19,12 +19,17 @@ const API_BASE = 'http://localhost:5000/api';
 
 export default function AuthPage({ onAuthSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
-  const [isOtpStep, setIsOtpStep] = useState(false); // Controls OTP verification view
+  const [isOtpStep, setIsOtpStep] = useState(false);
 
   // Form Inputs
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  // Password Visibility Toggles
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // 6-digit OTP array
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
@@ -40,6 +45,19 @@ export default function AuthPage({ onAuthSuccess }) {
     e.preventDefault();
     setError('');
     setSuccessMsg('');
+
+    // Sign up validations
+    if (!isLogin) {
+      if (password !== confirmPassword) {
+        setError('Passwords do not match. Please re-enter your password.');
+        return;
+      }
+      if (password.length < 6) {
+        setError('Password must be at least 6 characters long.');
+        return;
+      }
+    }
+
     setLoading(true);
 
     try {
@@ -277,7 +295,7 @@ export default function AuthPage({ onAuthSuccess }) {
                       <input
                         type="text"
                         required
-                        placeholder="e.g. Rahul Sharma"
+                        placeholder="e.g. Sapan Kumar"
                         className="form-input"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -301,20 +319,57 @@ export default function AuthPage({ onAuthSuccess }) {
                   </div>
                 </div>
 
+                {/* Password Input with Eye Toggle */}
                 <div className="form-group">
                   <label className="form-label">Password</label>
                   <div className="form-input-wrapper">
                     <Lock size={18} className="form-icon" />
                     <input
-                      type="password"
+                      type={showPassword ? 'text' : 'password'}
                       required
                       placeholder="••••••••"
                       className="form-input"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
+                    <button
+                      type="button"
+                      className="password-toggle-btn"
+                      onClick={() => setShowPassword(!showPassword)}
+                      tabIndex={-1}
+                      title={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
                   </div>
                 </div>
+
+                {/* Confirm Password with Eye Toggle (Sign Up Only) */}
+                {!isLogin && (
+                  <div className="form-group">
+                    <label className="form-label">Confirm Password</label>
+                    <div className="form-input-wrapper">
+                      <Lock size={18} className="form-icon" />
+                      <input
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        required
+                        placeholder="••••••••"
+                        className="form-input"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className="password-toggle-btn"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        tabIndex={-1}
+                        title={showConfirmPassword ? 'Hide password' : 'Show password'}
+                      >
+                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 <button type="submit" disabled={loading} className="btn-primary-auth">
                   {loading ? 'Please wait...' : isLogin ? 'Sign In to Portal' : 'Continue with Email OTP'}
@@ -330,6 +385,7 @@ export default function AuthPage({ onAuthSuccess }) {
                   onClick={() => {
                     setIsLogin(!isLogin);
                     setError('');
+                    setConfirmPassword('');
                   }}
                 >
                   {isLogin ? 'Sign up for free' : 'Log in here'}

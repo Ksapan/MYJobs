@@ -403,3 +403,21 @@
   color: var(--text-primary);
   text-decoration: underline;
 }
+
+/* Password Eye Toggle Button */
+.password-toggle-btn {
+  position: absolute;
+  right: 14px;
+  background: transparent;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.15s ease;
+}
+
+.password-toggle-btn:hover {
+  color: var(--text-primary);
+}

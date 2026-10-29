@@ -89,3 +89,4 @@ export async function sendOtpEmail(recipientEmail, userName, otp) {
 
   return transporter.sendMail(mailOptions);
 }
+

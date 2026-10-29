@@ -12,3 +12,4 @@ const OtpVerificationSchema = new mongoose.Schema(
 );
 
 export default mongoose.model('OtpVerification', OtpVerificationSchema);
+
