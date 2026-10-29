@@ -24,7 +24,8 @@ function getTransporter() {
 }
 
 /**
- * Send Aesthetic Branded HTML Email with OTP
+ * Send Clean, Minimalist & Professional Branded HTML Email
+ * Clean white background with black & light-green theme accents.
  */
 export async function sendOtpEmail(recipientEmail, userName, otp) {
   const transporter = getTransporter();
@@ -34,52 +35,77 @@ export async function sendOtpEmail(recipientEmail, userName, otp) {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your MyJobs Verification Code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verification Code - MyJobs</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #000000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #000000; padding: 40px 20px;">
+<body style="margin: 0; padding: 0; background-color: #f4f4f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #18181b;">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f4f5; padding: 40px 16px;">
     <tr>
       <td align="center">
-        <!-- Main Card -->
-        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 520px; background-color: #0d0d0d; border: 1px solid #262626; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+        <!-- Main Email Container -->
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; background-color: #ffffff; border: 1px solid #e4e4e7; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);">
           
-          <!-- Header Banner -->
+          <!-- Top Accent Line in Light Green -->
           <tr>
-            <td style="padding: 32px 40px; background: radial-gradient(circle at 10% 20%, #171717 0%, #050505 100%); border-bottom: 1px solid #222222; text-align: center;">
-              <div style="display: inline-block; width: 44px; height: 44px; background: #000000; border: 1.5px solid #22c55e; border-radius: 12px; line-height: 44px; text-align: center; color: #4ade80; font-size: 20px; font-weight: 800; box-shadow: 0 0 16px rgba(34, 197, 94, 0.35);">
-                💼
-              </div>
-              <h1 style="color: #ffffff; font-size: 22px; font-weight: 800; margin: 12px 0 4px; letter-spacing: -0.5px;">MyJobs Portal</h1>
-              <p style="color: #4ade80; font-size: 13px; font-weight: 600; margin: 0; text-transform: uppercase; letter-spacing: 0.8px;">AI Career & ATS Matching</p>
+            <td style="height: 4px; background: #22c55e;"></td>
+          </tr>
+
+          <!-- Header Section -->
+          <tr>
+            <td style="padding: 32px 36px 20px; border-bottom: 1px solid #f4f4f5;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td>
+                    <div style="display: inline-block; font-size: 20px; font-weight: 800; color: #000000; letter-spacing: -0.5px;">
+                      MyJobs <span style="color: #22c55e;">•</span>
+                    </div>
+                  </td>
+                  <td align="right">
+                    <span style="font-size: 12px; font-weight: 600; color: #71717a; text-transform: uppercase; letter-spacing: 0.5px;">Verification</span>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
 
-          <!-- Body Content -->
+          <!-- Content Section -->
           <tr>
-            <td style="padding: 36px 40px; text-align: left;">
-              <h2 style="color: #ffffff; font-size: 19px; font-weight: 700; margin: 0 0 12px;">Verify your email address</h2>
-              <p style="color: #a1a1aa; font-size: 14.5px; line-height: 1.6; margin: 0 0 24px;">
-                Hello <strong style="color: #ffffff;">${userName}</strong>,<br>
-                Thank you for joining MyJobs. Enter the single-use 6-digit verification code below to activate your account and access AI resume analysis & India tech jobs.
+            <td style="padding: 28px 36px 32px;">
+              <h1 style="font-size: 20px; font-weight: 700; color: #09090b; margin: 0 0 12px; letter-spacing: -0.3px;">
+                Verify your email address
+              </h1>
+              
+              <p style="font-size: 14.5px; line-height: 1.6; color: #52525b; margin: 0 0 24px;">
+                Hi <strong>${userName}</strong>,
+              </p>
+              
+              <p style="font-size: 14px; line-height: 1.6; color: #52525b; margin: 0 0 24px;">
+                Use the verification code below to complete your registration on MyJobs.
               </p>
 
-              <!-- OTP Display Box -->
-              <div style="background-color: #000000; border: 1.5px dashed #22c55e; border-radius: 12px; padding: 20px; text-align: center; margin: 28px 0; box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);">
-                <div style="color: #71717a; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Your 6-Digit Verification Code</div>
-                <div style="color: #4ade80; font-size: 34px; font-weight: 800; letter-spacing: 8px; font-family: 'Courier New', Courier, monospace;">
+              <!-- Clean OTP Code Display Box -->
+              <div style="background-color: #fafafa; border: 1.5px solid #e4e4e7; border-left: 4px solid #22c55e; border-radius: 8px; padding: 18px 24px; margin: 24px 0;">
+                <div style="font-size: 11px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px;">
+                  Your 6-Digit Code
+                </div>
+                <div style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #000000; font-family: ui-monospace, Menlo, Monaco, 'Courier New', monospace;">
                   ${otp}
                 </div>
               </div>
 
-              <p style="color: #71717a; font-size: 12.5px; line-height: 1.5; margin: 0 0 24px;">
-                ⏳ This code is valid for <strong>10 minutes</strong>. For your security, never share this OTP with anyone. If you did not create this account, you can safely ignore this email.
+              <p style="font-size: 13px; line-height: 1.5; color: #71717a; margin: 0 0 8px;">
+                This code expires in <strong>10 minutes</strong>. If you did not request this, you can ignore this email.
               </p>
+            </td>
+          </tr>
 
-              <div style="border-top: 1px solid #1f1f1f; padding-top: 20px; text-align: center;">
-                <p style="color: #52525b; font-size: 12px; margin: 0;">
-                  Protected with encrypted zero-loss storage • Bangalore, India
-                </p>
-              </div>
+          <!-- Footer Section -->
+          <tr>
+            <td style="padding: 20px 36px; background-color: #fafafa; border-top: 1px solid #f4f4f5; text-align: center;">
+              <p style="font-size: 12px; color: #a1a1aa; margin: 0; line-height: 1.5;">
+                © MyJobs Portal • AI-Powered Career Platform<br>
+                Bangalore, India
+              </p>
             </td>
           </tr>
 
@@ -92,7 +118,7 @@ export async function sendOtpEmail(recipientEmail, userName, otp) {
 `;
 
   const mailOptions = {
-    from: `"MyJobs Portal" <${process.env.EMAIL_USER}>`,
+    from: `"MyJobs" <${process.env.EMAIL_USER}>`,
     to: recipientEmail,
     subject: `${otp} is your MyJobs verification code`,
     html: htmlTemplate
