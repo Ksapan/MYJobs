@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Briefcase, FileText, LogOut, Sparkles } from 'lucide-react';
+import { Briefcase, FileText, LogOut, Sparkles, ChevronRight, CheckCircle2 } from 'lucide-react';
 import AuthPage from './pages/AuthPage';
 import ResumeSection from './components/ResumeSection';
 import MyJobsSection from './components/MyJobsSection';
@@ -36,20 +36,18 @@ export default function App() {
           setUser(res.data.user);
           localStorage.setItem('user', JSON.stringify(res.data.user));
 
-          // Fetch resume data
           return axios.get(`${API_BASE}/resume/my-analysis`, {
             headers: { Authorization: `Bearer ${token}` }
           });
         })
         .then((res) => {
           setResumeData(res.data.data);
-          // If user already has a resume uploaded, we can default to jobs tab
           if (res.data.data?.analysis) {
             setActiveTab('myjobs');
           }
         })
         .catch(() => {
-          // Non-blocking if analysis is not yet uploaded
+          // Non-blocking
         })
         .finally(() => {
           setLoadingInitial(false);
@@ -60,7 +58,6 @@ export default function App() {
   const handleAuthSuccess = (userData, userToken) => {
     setUser(userData);
     setToken(userToken);
-    // If first-time user hasn't uploaded a resume, force resume tab
     if (!userData.hasUploadedResume) {
       setActiveTab('resume');
     } else {
@@ -87,66 +84,104 @@ export default function App() {
 
   return (
     <div className="dashboard-layout">
-      {/* Top Navbar */}
-      <header className="top-navbar">
-        <div className="brand-section">
-          <div className="brand-badge">M</div>
-          <span className="brand-title">MyJobs Portal</span>
-        </div>
-
-        {/* Navigation Tabs */}
-        <nav className="nav-tabs">
-          <button
-            type="button"
-            className={`nav-tab-btn ${activeTab === 'resume' ? 'active' : ''}`}
-            onClick={() => setActiveTab('resume')}
-          >
-            <FileText size={17} />
-            Resume & AI Analysis
-            {!user?.hasUploadedResume && (
-              <span style={{ fontSize: '11px', background: 'var(--warning)', color: '#000', padding: '1px 6px', borderRadius: '10px' }}>
-                Required
-              </span>
-            )}
-          </button>
-
-          <button
-            type="button"
-            className={`nav-tab-btn ${activeTab === 'myjobs' ? 'active' : ''}`}
-            onClick={() => setActiveTab('myjobs')}
-          >
-            <Briefcase size={17} />
-            My Jobs
-          </button>
-        </nav>
-
-        {/* User Pill & Logout */}
-        <div className="user-nav-actions">
-          <div className="user-profile-pill">
-            <div className="user-avatar">{user.name?.charAt(0).toUpperCase() || 'U'}</div>
-            <span className="user-name-text">{user.name}</span>
+      {/* Sleek Left Sidebar Navigation */}
+      <aside className="side-navbar">
+        <div>
+          {/* Brand Logo */}
+          <div className="side-brand-section">
+            <div className="brand-badge">M</div>
+            <span className="brand-title">
+              MyJobs <span>Portal</span>
+            </span>
           </div>
 
-          <button type="button" onClick={handleLogout} className="btn-icon-danger" title="Logout">
-            <LogOut size={16} /> Logout
+          {/* Nav Menu */}
+          <nav className="side-nav-menu">
+            <div className="side-nav-heading">Platform</div>
+
+            <button
+              type="button"
+              className={`nav-tab-btn ${activeTab === 'resume' ? 'active' : ''}`}
+              onClick={() => setActiveTab('resume')}
+            >
+              <div className="nav-tab-left">
+                <FileText size={18} />
+                <span>Resume & AI Analysis</span>
+              </div>
+              {!user?.hasUploadedResume && (
+                <span
+                  style={{
+                    fontSize: '10.5px',
+                    fontWeight: 700,
+                    background: '#fef3c7',
+                    color: '#92400e',
+                    padding: '2px 7px',
+                    borderRadius: '8px'
+                  }}
+                >
+                  Required
+                </span>
+              )}
+            </button>
+
+            <button
+              type="button"
+              className={`nav-tab-btn ${activeTab === 'myjobs' ? 'active' : ''}`}
+              onClick={() => setActiveTab('myjobs')}
+            >
+              <div className="nav-tab-left">
+                <Briefcase size={18} />
+                <span>My Jobs</span>
+              </div>
+            </button>
+          </nav>
+        </div>
+
+        {/* User Profile & Logout in Sidebar Footer */}
+        <div className="side-user-footer">
+          <div className="user-profile-card">
+            <div className="user-avatar">{user.name?.charAt(0).toUpperCase() || 'U'}</div>
+            <div className="user-meta-info">
+              <span className="user-name-text">{user.name}</span>
+              <span className="user-email-text">{user.email}</span>
+            </div>
+          </div>
+
+          <button type="button" onClick={handleLogout} className="btn-sidebar-logout">
+            <LogOut size={16} /> Logout Account
           </button>
         </div>
-      </header>
+      </aside>
 
-      {/* Main Tab Content */}
-      <main className="dashboard-main-content">
-        {activeTab === 'resume' ? (
-          <ResumeSection
-            token={token}
-            user={user}
-            resumeData={resumeData}
-            onResumeUploaded={handleResumeUploaded}
-            onViewJobs={() => setActiveTab('myjobs')}
-          />
-        ) : (
-          <MyJobsSection token={token} user={user} resumeData={resumeData} />
-        )}
-      </main>
+      {/* Main Content Area */}
+      <div className="dashboard-main-canvas">
+        {/* Subtle Top Breadcrumb Bar */}
+        <header className="dashboard-top-subbar">
+          <div className="dashboard-breadcrumb">
+            <span>Portal /</span> {activeTab === 'resume' ? 'Resume & AI Analysis' : 'My Jobs'}
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#15803d', fontWeight: 600 }}>
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e' }}></span>
+            Active Session
+          </div>
+        </header>
+
+        {/* Active Content Body */}
+        <main className="dashboard-main-content">
+          {activeTab === 'resume' ? (
+            <ResumeSection
+              token={token}
+              user={user}
+              resumeData={resumeData}
+              onResumeUploaded={handleResumeUploaded}
+              onViewJobs={() => setActiveTab('myjobs')}
+            />
+          ) : (
+            <MyJobsSection token={token} user={user} resumeData={resumeData} />
+          )}
+        </main>
+      </div>
     </div>
   );
 }

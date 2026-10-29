@@ -1,44 +1,31 @@
-/* Onboarding Hero with Black & Light Green Contrast */
+/* Onboarding Hero with Refined Professional Theme */
 .onboarding-banner {
-  background: radial-gradient(circle at 10% 20%, #171717 0%, #000000 100%);
-  color: white;
-  border: 1px solid #262626;
+  background: #ffffff;
+  color: var(--text-primary);
+  border: 1.5px solid #e4e4e7;
+  border-left: 5px solid #22c55e;
   border-radius: var(--radius-xl);
-  padding: 36px 44px;
+  padding: 32px 36px;
   margin-bottom: 28px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 32px;
-  position: relative;
-  overflow: hidden;
-}
-
-.onboarding-banner::after {
-  content: '';
-  position: absolute;
-  right: -50px;
-  bottom: -50px;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(34, 197, 94, 0.25) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
 }
 
 .onboarding-info h2 {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
   margin-bottom: 8px;
-  letter-spacing: -0.5px;
-  color: #ffffff;
+  letter-spacing: -0.4px;
+  color: #09090b;
 }
 
 .onboarding-info p {
-  color: #a1a1aa;
-  font-size: 15px;
-  max-width: 750px;
+  color: #52525b;
+  font-size: 14.5px;
+  max-width: 780px;
   line-height: 1.6;
 }
 
@@ -46,7 +33,7 @@
   background: #ffffff;
   border: 2px dashed #bbf7d0;
   border-radius: var(--radius-xl);
-  padding: 48px 24px;
+  padding: 56px 24px;
   text-align: center;
   transition: all 0.2s ease;
   cursor: pointer;
@@ -57,8 +44,8 @@
 .resume-upload-zone:hover,
 .resume-upload-zone.dragging {
   border-color: #22c55e;
-  background-color: var(--primary-light);
-  box-shadow: 0 0 0 4px var(--primary-glow);
+  background-color: #f0fdf4;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
 }
 
 .upload-icon-circle {
@@ -72,6 +59,7 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto 18px;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.15);
 }
 
 .upload-prompt-text {
@@ -124,12 +112,12 @@
 
 .score-widget {
   text-align: center;
-  background: #000000;
-  border: 1px solid #262626;
+  background: #09090b;
+  border: 1px solid #18181b;
   padding: 20px 28px;
   border-radius: var(--radius-lg);
   min-width: 160px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
 .score-number {
@@ -192,7 +180,7 @@
   gap: 10px;
   font-size: 17px;
   font-weight: 700;
-  color: #000000;
+  color: #09090b;
   margin-bottom: 20px;
 }
 
@@ -220,7 +208,7 @@
 }
 
 .tag-pill.secondary {
-  background: #000000;
+  background: #09090b;
   color: #4ade80;
   border-color: #22c55e;
   font-weight: 600;
@@ -306,7 +294,7 @@
   align-items: center;
   gap: 8px;
   padding: 10px 18px;
-  background: #000000;
+  background: #09090b;
   color: #4ade80;
   border: 1px solid #22c55e;
   border-radius: var(--radius-md);
@@ -316,7 +304,7 @@
 }
 
 .btn-primary-green:hover {
-  background: #171717;
+  background: #18181b;
   border-color: #4ade80;
   box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
 }
