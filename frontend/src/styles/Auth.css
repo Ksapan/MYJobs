@@ -322,3 +322,84 @@
     padding: 40px 24px;
   }
 }
+.otp-verification-block {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.otp-icon-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #15803d;
+  margin: 0 auto 16px;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.2);
+}
+
+.otp-inputs-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 24px 0 20px;
+}
+
+.otp-box-input {
+  width: 48px;
+  height: 56px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  font-family: 'Courier New', Courier, monospace;
+  color: #09090b;
+  background: #f8fafc;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+}
+
+.otp-box-input:focus {
+  background: #ffffff;
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+  transform: translateY(-2px);
+}
+
+.otp-resend-row {
+  margin-top: 18px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+.btn-resend-code {
+  color: #15803d;
+  font-weight: 700;
+  background: transparent;
+  padding: 0;
+  margin-left: 6px;
+}
+
+.btn-resend-code:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.btn-resend-code:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-back-signup {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  background: transparent;
+}
+
+.btn-back-signup:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
