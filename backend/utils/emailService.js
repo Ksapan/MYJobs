@@ -1,23 +1,34 @@
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+
+// Ensure .env is always loaded before configuring SMTP
+dotenv.config();
 
 /**
- * Configure Gmail SMTP Transporter
+ * Configure Gmail SMTP Transporter (Lazy / Dynamic to ensure fresh env variables)
  */
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+function getTransporter() {
+  const user = (process.env.EMAIL_USER || '').trim();
+  const pass = (process.env.EMAIL_PASS || '').replace(/\s+/g, '').trim();
+
+  return nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user,
+      pass
+    }
+  });
+}
 
 /**
  * Send Aesthetic Branded HTML Email with OTP
  */
 export async function sendOtpEmail(recipientEmail, userName, otp) {
+  const transporter = getTransporter();
+
   const htmlTemplate = `
 <!DOCTYPE html>
 <html lang="en">
@@ -89,4 +100,3 @@ export async function sendOtpEmail(recipientEmail, userName, otp) {
 
   return transporter.sendMail(mailOptions);
 }
-
