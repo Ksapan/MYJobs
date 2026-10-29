@@ -1,6 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import { Search, MapPin, Building, ExternalLink, Calendar, RefreshCw, Sparkles, FileCheck } from 'lucide-react';
+import {
+  Search,
+  MapPin,
+  Building,
+  ExternalLink,
+  Calendar,
+  Sparkles,
+  RefreshCw,
+  Compass,
+  Briefcase
+} from 'lucide-react';
 import AtsResumeModal from './AtsResumeModal';
 import '../styles/Jobs.css';
 
@@ -21,12 +31,16 @@ const POPULAR_LOCATIONS = [
 
 export default function MyJobsSection({ token, user, resumeData }) {
   const defaultRole =
-    resumeData?.analysis?.recommendedSearchKeywords?.[0] ||
-    resumeData?.analysis?.suggestedJobRoles?.[0] ||
+    resumeData?.analysis?.metrics?.recommendedKeywords?.[0] ||
+    resumeData?.analysis?.skills?.topSkills?.[0] ||
+    resumeData?.analysis?.headline ||
     'Software Developer';
 
   const [roleQuery, setRoleQuery] = useState(defaultRole);
   const [selectedLocation, setSelectedLocation] = useState(user?.preferredLocation || 'India');
+
+  // ONLY SYNC / FETCH WHEN USER CLICKS SEARCH (No auto sync)
+  const [hasSearched, setHasSearched] = useState(false);
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -38,17 +52,20 @@ export default function MyJobsSection({ token, user, resumeData }) {
   const [atsOptimizationResult, setAtsOptimizationResult] = useState(null);
   const [showAtsModal, setShowAtsModal] = useState(false);
 
-  const fetchJobs = async (customRole, customLoc) => {
+  // Manual Trigger Function (LinkedIn Scraper + JSearch)
+  const handleTriggerSearch = async (e) => {
+    if (e) e.preventDefault();
+    if (!roleQuery.trim()) return;
+
     setLoading(true);
     setError('');
-    const targetRole = customRole !== undefined ? customRole : roleQuery;
-    const targetLoc = customLoc !== undefined ? customLoc : selectedLocation;
+    setHasSearched(true);
 
     try {
       const res = await axios.get(`${API_BASE}/jobs/search`, {
         params: {
-          role: targetRole,
-          location: targetLoc
+          role: roleQuery.trim(),
+          location: selectedLocation
         },
         headers: {
           Authorization: `Bearer ${token}`
@@ -56,36 +73,26 @@ export default function MyJobsSection({ token, user, resumeData }) {
       });
 
       setJobs(res.data.data || []);
-      setSearchSummary(`Found ${res.data.count || 0} active positions matching "${targetRole}" in "${targetLoc}"`);
+      setSearchSummary(
+        `Found ${res.data.count || 0} active openings matching "${roleQuery}" in "${selectedLocation}"`
+      );
+
+      // Save user location preference in background
+      axios
+        .put(
+          `${API_BASE}/auth/location`,
+          { preferredLocation: selectedLocation },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .catch(() => {});
     } catch (err) {
-      setError(err.response?.data?.details || err.response?.data?.message || 'Error fetching jobs from RapidAPI.');
+      setError(
+        err.response?.data?.details ||
+        err.response?.data?.message ||
+        'Error syncing jobs from scrapers. Please try again.'
+      );
     } finally {
       setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchJobs(defaultRole, selectedLocation);
-  }, []);
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    fetchJobs();
-  };
-
-  const handleLocationChange = async (e) => {
-    const newLoc = e.target.value;
-    setSelectedLocation(newLoc);
-    fetchJobs(roleQuery, newLoc);
-
-    try {
-      await axios.put(
-        `${API_BASE}/auth/location`,
-        { preferredLocation: newLoc },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-    } catch (e) {
-      // Non-blocking
     }
   };
 
@@ -97,9 +104,7 @@ export default function MyJobsSection({ token, user, resumeData }) {
       const res = await axios.post(
         `${API_BASE}/ats/optimize`,
         { job },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setSelectedJobForAts(job);
@@ -108,7 +113,7 @@ export default function MyJobsSection({ token, user, resumeData }) {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-        'Failed to run ATS match engine. Please ensure you uploaded your primary resume in the Resume tab.'
+        'Failed to run ATS match engine. Please upload your resume in the Resume tab.'
       );
     } finally {
       setOptimizingJobId(null);
@@ -118,19 +123,23 @@ export default function MyJobsSection({ token, user, resumeData }) {
   return (
     <div className="jobs-section-container">
       {/* Search and Location Filter Bar */}
-      <form onSubmit={handleSearchSubmit} className="jobs-filter-bar">
+      <form onSubmit={handleTriggerSearch} className="jobs-filter-bar">
         <div className="filter-group">
           <div className="search-input-box">
-            <Search size={18} style={{ position: 'absolute', left: '12px', color: 'var(--text-muted)' }} />
+            <Search size={18} style={{ position: 'absolute', left: '14px', color: 'var(--text-muted)' }} />
             <input
               type="text"
-              placeholder="Filter by title or technology (e.g. React Developer, Node.js)"
+              placeholder="Search by title, technology, or skills (e.g. React Developer, Node.js)"
               value={roleQuery}
               onChange={(e) => setRoleQuery(e.target.value)}
             />
           </div>
 
-          <select className="location-dropdown" value={selectedLocation} onChange={handleLocationChange}>
+          <select
+            className="location-dropdown"
+            value={selectedLocation}
+            onChange={(e) => setSelectedLocation(e.target.value)}
+          >
             {POPULAR_LOCATIONS.map((loc, idx) => (
               <option key={idx} value={loc}>
                 📍 {loc}
@@ -140,31 +149,76 @@ export default function MyJobsSection({ token, user, resumeData }) {
 
           <button type="submit" disabled={loading} className="btn-search">
             {loading ? <RefreshCw className="animate-spin" size={16} /> : <Search size={16} />}
-            Search Jobs
+            {loading ? 'Syncing...' : 'Search Jobs'}
           </button>
         </div>
       </form>
 
       {/* Query Status Summary */}
-      {searchSummary && (
+      {searchSummary && !loading && (
         <div style={{ marginBottom: '20px', fontSize: '14px', color: 'var(--text-secondary)' }}>
           {searchSummary}
         </div>
       )}
 
       {error && (
-        <div style={{ padding: '16px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', color: 'var(--danger)', marginBottom: '24px' }}>
+        <div
+          style={{
+            padding: '16px',
+            background: '#fef2f2',
+            border: '1px solid #fecaca',
+            borderRadius: '12px',
+            color: 'var(--danger)',
+            marginBottom: '24px'
+          }}
+        >
           <strong>Notice:</strong> {error}
         </div>
       )}
 
-      {/* Jobs Grid */}
-      {loading ? (
-        <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-secondary)' }}>
-          <RefreshCw className="animate-spin" size={32} style={{ margin: '0 auto 12px', display: 'block' }} />
-          Fetching live job openings from RapidAPI...
+      {/* 1. Custom Vision-Matched Animated Brand Loader */}
+      {loading && (
+        <div className="vision-loader-container">
+          <div className="vision-radar-spinner">
+            <div className="vision-pulse-ring" />
+            <div className="vision-pulse-ring delay" />
+            <div className="vision-orbit-circle" />
+            <div className="vision-center-badge">
+              <Briefcase size={18} />
+            </div>
+          </div>
+          <div className="vision-loader-text">
+            <h4>Syncing Live Jobs Across India & Remote Boards</h4>
+            <p>Pulling fresh postings from LinkedIn India, JSearch, and contract channels...</p>
+          </div>
         </div>
-      ) : jobs.length > 0 ? (
+      )}
+
+      {/* 2. Initial Pre-Search Prompt (No automatic sync until user searches) */}
+      {!hasSearched && !loading && (
+        <div className="jobs-welcome-prompt">
+          <div className="jobs-welcome-icon">
+            <Compass size={28} />
+          </div>
+          <h3 style={{ fontSize: '18px', fontWeight: 800, marginBottom: '6px', color: '#09090b' }}>
+            Find Your Next High-Growth Role
+          </h3>
+          <p style={{ fontSize: '14px', color: '#71717a', maxWidth: '480px', margin: '0 auto 20px', lineHeight: 1.6 }}>
+            Type your target job title or tech stack above and select your city. We will search and sync real-time opportunities on demand.
+          </p>
+          <button
+            type="button"
+            onClick={handleTriggerSearch}
+            className="btn-search"
+            style={{ margin: '0 auto' }}
+          >
+            <Search size={16} /> Search for "{roleQuery || 'Software Engineer'}"
+          </button>
+        </div>
+      )}
+
+      {/* 3. Jobs Grid (Post-Search) */}
+      {!loading && hasSearched && jobs.length > 0 && (
         <div className="jobs-grid">
           {jobs.map((job, idx) => {
             const isOptimizingThis = optimizingJobId === (job.job_id || job.job_title);
@@ -183,7 +237,10 @@ export default function MyJobsSection({ token, user, resumeData }) {
                         }}
                       />
                     ) : (
-                      <div className="job-employer-logo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div
+                        className="job-employer-logo"
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                      >
                         <Building size={20} color="#15803d" />
                       </div>
                     )}
@@ -214,7 +271,6 @@ export default function MyJobsSection({ token, user, resumeData }) {
                   <span className="job-employment-type">{job.job_employment_type || 'Full Time'}</span>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    {/* Create ATS Resume Free Action */}
                     <button
                       type="button"
                       disabled={isOptimizingThis}
@@ -258,12 +314,13 @@ export default function MyJobsSection({ token, user, resumeData }) {
             );
           })}
         </div>
-      ) : (
-        !loading && (
-          <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-secondary)' }}>
-            No jobs found for this query/location. Try another keyword or location in the filter bar.
-          </div>
-        )
+      )}
+
+      {/* 4. No Results Found State */}
+      {!loading && hasSearched && jobs.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-secondary)' }}>
+          No jobs found for this query/location. Try another keyword or location in the filter bar.
+        </div>
       )}
 
       {/* ATS Tailored Resume Modal */}

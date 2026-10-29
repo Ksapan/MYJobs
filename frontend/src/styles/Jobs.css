@@ -211,3 +211,113 @@
   box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
   transform: translateY(-1px);
 }
+
+/* Custom Vision-Matched Animated Brand Loader */
+.vision-loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  width: 100%;
+}
+
+.vision-radar-spinner {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.vision-pulse-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(34, 197, 94, 0.4);
+  animation: visionPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.vision-pulse-ring.delay {
+  animation-delay: 0.75s;
+}
+
+.vision-orbit-circle {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 2.5px solid transparent;
+  border-top-color: #22c55e;
+  border-right-color: #22c55e;
+  animation: visionRotate 1.2s linear infinite;
+}
+
+.vision-center-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #09090b;
+  border: 1.5px solid #22c55e;
+  color: #4ade80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.3);
+  z-index: 2;
+}
+
+.vision-loader-text h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #09090b;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.vision-loader-text p {
+  font-size: 13px;
+  color: #71717a;
+  text-align: center;
+}
+
+@keyframes visionRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes visionPulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* Empty State Box (When no search has been run yet) */
+.jobs-welcome-prompt {
+  background: #ffffff;
+  border: 1.5px dashed #e4e4e7;
+  border-radius: var(--radius-xl);
+  padding: 60px 24px;
+  text-align: center;
+  max-width: 640px;
+  margin: 30px auto;
+}
+
+.jobs-welcome-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #15803d;
+  margin: 0 auto 16px;
+}
