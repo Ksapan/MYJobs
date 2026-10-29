@@ -1,0 +1,178 @@
+/* Professional Job Card System */
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
+.job-card {
+  background: #ffffff;
+  border: 1.5px solid #e4e4e7;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.job-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.08);
+  border-color: #22c55e;
+}
+
+.job-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.job-employer-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  object-fit: contain;
+  background: #f8fafc;
+  border: 1px solid #e4e4e7;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.job-title-block h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #09090b;
+  margin-bottom: 3px;
+  line-height: 1.35;
+  letter-spacing: -0.3px;
+}
+
+.job-employer-name {
+  font-size: 13.5px;
+  color: #52525b;
+  font-weight: 600;
+}
+
+.job-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  color: #71717a;
+}
+
+.job-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.job-meta-item svg {
+  color: #15803d;
+}
+
+.job-description-preview {
+  font-size: 13.5px;
+  color: #52525b;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Card Action Footer with Equal Alignments */
+.job-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid #f4f4f5;
+  gap: 8px;
+}
+
+.job-card-action-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.job-employment-type {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.btn-view-details {
+  padding: 7px 12px;
+  background: #ffffff;
+  color: #09090b;
+  border: 1.5px solid #e4e4e7;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-view-details:hover {
+  background: #f4f4f5;
+  border-color: #a1a1aa;
+}
+
+.btn-create-ats-card {
+  padding: 7px 12px;
+  background: #f0fdf4;
+  color: #166534;
+  border: 1.5px solid #22c55e;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-create-ats-card:hover:not(:disabled) {
+  background: #dcfce7;
+  transform: translateY(-1px);
+}
+
+.btn-apply-card {
+  padding: 7px 14px;
+  background: #09090b;
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-apply-card:hover {
+  background: #18181b;
+  color: #4ade80;
+}
