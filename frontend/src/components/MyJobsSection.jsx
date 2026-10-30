@@ -408,6 +408,7 @@ export default function MyJobsSection({ token, user, resumeData }) {
       {activeDetailsJob && (
         <JobDetailsModal
           job={activeDetailsJob}
+          resumeData={resumeData}
           onClose={() => setActiveDetailsJob(null)}
           onCreateAtsResume={handleCreateAtsResume}
         />
