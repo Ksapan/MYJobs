@@ -74,7 +74,7 @@ export default function ResumeSection({ token, user, resumeData, onResumeUploade
           <div className="onboarding-info">
             <h2>Welcome, {user?.name}! First step: Upload your Resume</h2>
             <p>
-              To discover matching jobs in your target cities and evaluate your strengths, please upload your PDF resume. Our AI engine powered by Groq Llama 3 will break it down into clean categorized skills, experience, and keywords.
+              To discover matching jobs in your target cities and evaluate your strengths, please upload your PDF resume. Our ultra-fast Groq AI engine will break it down into clean categorized skills, experience, and keywords.
             </p>
           </div>
         </div>

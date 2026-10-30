@@ -286,7 +286,13 @@ export default function MyJobsSection({ token, user, resumeData }) {
               const isOptimizingThis = optimizingJobId === (job.job_id || job.job_title);
 
               return (
-                <div key={job.job_id || idx} className="job-card">
+                <div
+                  key={job.job_id || idx}
+                  className="job-card"
+                  onClick={() => setActiveDetailsJob(job)}
+                  title="Click card to view complete Job Description & details"
+                  style={{ cursor: 'pointer' }}
+                >
                   <div>
                     <div className="job-card-header">
                       {job.employer_logo ? (
@@ -328,49 +334,33 @@ export default function MyJobsSection({ token, user, resumeData }) {
                     </p>
                   </div>
 
-                  {/* Card Actions Footer with Clean Aligned Buttons */}
-                  <div className="job-card-footer">
-                    <span className="job-employment-type">
-                      {job.platformBadge || job.job_employment_type || 'Full Time'}
-                    </span>
+                  {/* Card Actions Footer */}
+                  <div className="job-card-footer" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      type="button"
+                      disabled={isOptimizingThis}
+                      onClick={() => handleCreateAtsResume(job)}
+                      className="btn-create-ats-card"
+                    >
+                      {isOptimizingThis ? (
+                        <>
+                          <RefreshCw className="animate-spin" size={13} /> Tailoring...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles size={13} color="#15803d" /> ATS Resume
+                        </>
+                      )}
+                    </button>
 
-                    <div className="job-card-action-btns">
-                      {/* View Details Button */}
-                      <button
-                        type="button"
-                        onClick={() => setActiveDetailsJob(job)}
-                        className="btn-view-details"
-                        title="View Full Job Description & Scope"
-                      >
-                        <Info size={14} /> Details
-                      </button>
-
-                      <button
-                        type="button"
-                        disabled={isOptimizingThis}
-                        onClick={() => handleCreateAtsResume(job)}
-                        className="btn-create-ats-card"
-                      >
-                        {isOptimizingThis ? (
-                          <>
-                            <RefreshCw className="animate-spin" size={13} /> Tailoring...
-                          </>
-                        ) : (
-                          <>
-                            <Sparkles size={13} color="#15803d" /> ATS Resume
-                          </>
-                        )}
-                      </button>
-
-                      <a
-                        href={job.job_apply_link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-apply-card"
-                      >
-                        Apply <ExternalLink size={12} />
-                      </a>
-                    </div>
+                    <a
+                      href={job.job_apply_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-apply-card"
+                    >
+                      Apply <ExternalLink size={12} />
+                    </a>
                   </div>
                 </div>
               );

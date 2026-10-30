@@ -162,7 +162,7 @@ ${rawText.slice(0, 14000)}
           content: prompt
         }
       ],
-      model: 'llama-3.3-70b-versatile',
+      model: process.env.GROQ_MODEL || 'qwen/qwen3.8-27b',
       temperature: 0.1,
       response_format: { type: 'json_object' }
     });

@@ -17,11 +17,13 @@
   justify-content: space-between;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  cursor: pointer;
+  user-select: none;
 }
 
 .job-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px -6px rgba(0, 0, 0, 0.09), 0 0 0 1px #86efac;
   border-color: #22c55e;
 }
 
@@ -89,90 +91,57 @@
   text-overflow: ellipsis;
 }
 
-/* Card Action Footer with Equal Alignments */
+/* Card Action Footer: Clean Two-Button Layout */
 .job-card-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-top: 16px;
   border-top: 1px solid #f4f4f5;
-  gap: 8px;
-}
-
-.job-card-action-btns {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.job-employment-type {
-  font-size: 12px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  background: #f0fdf4;
-  color: #15803d;
-  border: 1px solid #bbf7d0;
-  text-transform: capitalize;
-  white-space: nowrap;
-}
-
-.btn-view-details {
-  padding: 7px 12px;
-  background: #ffffff;
-  color: #09090b;
-  border: 1.5px solid #e4e4e7;
-  border-radius: 8px;
-  font-size: 12.5px;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.btn-view-details:hover {
-  background: #f4f4f5;
-  border-color: #a1a1aa;
+  gap: 10px;
 }
 
 .btn-create-ats-card {
-  padding: 7px 12px;
+  padding: 8px 14px;
   background: #f0fdf4;
   color: #166534;
   border: 1.5px solid #22c55e;
-  border-radius: 8px;
-  font-size: 12.5px;
+  border-radius: 9px;
+  font-size: 13px;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   transition: all 0.2s ease;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .btn-create-ats-card:hover:not(:disabled) {
   background: #dcfce7;
+  border-color: #16a34a;
   transform: translateY(-1px);
 }
 
 .btn-apply-card {
-  padding: 7px 14px;
+  padding: 8px 16px;
   background: #09090b;
   color: #ffffff;
-  border-radius: 8px;
-  font-size: 12.5px;
+  border-radius: 9px;
+  font-size: 13px;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   transition: all 0.2s ease;
   white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .btn-apply-card:hover {
   background: #18181b;
   color: #4ade80;
+  transform: translateY(-1px);
 }
+

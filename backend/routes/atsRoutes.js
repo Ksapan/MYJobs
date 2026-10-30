@@ -127,7 +127,7 @@ Output ONLY valid JSON matching this schema:
         { role: 'system', content: 'You are an elite resume engineer. Always output strictly valid JSON.' },
         { role: 'user', content: prompt }
       ],
-      model: 'llama-3.3-70b-versatile',
+      model: process.env.GROQ_MODEL || 'qwen/qwen3.8-27b',
       temperature: 0.1,
       response_format: { type: 'json_object' }
     });
